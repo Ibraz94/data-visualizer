@@ -26,7 +26,7 @@ interface Relationship {
   toText?: string;
 }
 
-export default function SimpleERDDiagram(): JSX.Element {
+export default function ERDDiagram(): JSX.Element {
   const diagramRef = useRef<HTMLDivElement>(null);
   const diagramInstance = useRef<go.Diagram | null>(null);
   const [fileContent, setFileContent] = useState<string>('');
@@ -211,7 +211,6 @@ export default function SimpleERDDiagram(): JSX.Element {
   }, [tables, relationships]);
 
 
-
   const normalizeData = (data: any): { tables: Table[], relationships: Relationship[] } => {
     let tables: Table[] = [];
     let relationships: Relationship[] = [];
@@ -247,7 +246,6 @@ export default function SimpleERDDiagram(): JSX.Element {
       tableMap.set(key, tableName);
       return { key, name: tableName, fields };
     };
-
 
     const processRelatedArrays = (obj: any, parentKey: number, parentName: string, depth: number = 0): void => {
       if (depth > 5) return; 
