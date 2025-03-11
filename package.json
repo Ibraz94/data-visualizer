@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gojs": "^3.0.19",
     "lucide-react": "^0.479.0",
     "next": "14.2.16",
+    "node-sql-parser": "^5.3.7",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^3.0.2",

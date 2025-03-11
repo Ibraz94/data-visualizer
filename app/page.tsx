@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as go from 'gojs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface Field {
   name: string;
-  value?: any; 
+  value?: any;
   isPrimary?: boolean;
   isForeign?: boolean;
 }
@@ -33,39 +34,35 @@ export default function SimpleERDDiagram(): JSX.Element {
   const [relationships, setRelationships] = useState<Relationship[]>([]);
   const [error, setError] = useState<string>('');
 
-
   const getNodeTemplate = (): go.Node => {
     const $ = go.GraphObject.make;
     return $(go.Node, "Auto",
       { movable: true },
-      $(go.Shape, "Rectangle", { fill: "gray", stroke: "black", strokeWidth: 2 }),
+      $(go.Shape, "RoundedRectangle", { fill: "gray", stroke: "black", strokeWidth: 4, }),
       $(go.Panel, "Vertical",
         $(go.Panel, "Horizontal",
           { background: "gray", padding: 4 },
           $(go.TextBlock,
             {
               margin: 4,
-              font: "bold 12px sans-serif",
+              font: "bold 14px sans-serif",
               stroke: "white",
               editable: false,
               click: (e: go.InputEvent, obj: go.GraphObject) => {
                 const panel = obj.part as go.Node;
                 const details = panel.findObject("DETAILS");
                 if (details) details.visible = !details.visible;
-                const triangle = panel.findObject("TRIANGLE");
-                if (details && triangle instanceof go.Shape) triangle.figure = details.visible ? "TriangleDown" : "TriangleRight";
                 panel.updateTargetBindings();
                 diagramInstance.current?.requestUpdate();
               }
             },
             new go.Binding("text", "name")
           ),
- 
         ),
         $(go.Panel, "Vertical",
           { name: "DETAILS", visible: true, margin: 4 },
           $(go.TextBlock,
-            { text: "PRIMARY KEY", font: "bold 10px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) },
+            { text: "PRIMARY KEY", font: "bold 14px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) },
             new go.Binding("visible", "fields", (fields: Field[]) => fields.some(f => f.isPrimary))
           ),
           $(go.Panel, "Vertical",
@@ -84,7 +81,7 @@ export default function SimpleERDDiagram(): JSX.Element {
             }
           ),
           $(go.TextBlock,
-            { text: "ATTRIBUTES", font: "bold 10px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) }
+            { text: "ATTRIBUTES", font: "bold 14px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) }
           ),
           $(go.Panel, "Vertical",
             new go.Binding("itemArray", "fields", (fields: Field[]) => 
@@ -127,17 +124,16 @@ export default function SimpleERDDiagram(): JSX.Element {
     );
   };
 
-
   const getLinkTemplate = (): go.Link => {
     const $ = go.GraphObject.make;
     return $(go.Link,
       { 
         routing: go.Link.AvoidsNodes, 
         curve: go.Link.JumpOver,
-        corner: 10,
+        corner: 20,
         layerName: "Foreground"
       },
-      $(go.Shape, { strokeWidth: 2, stroke: "black" }),
+      $(go.Shape, { strokeWidth: 4, stroke: "black" }),
       $(go.Shape, { toArrow: "Standard", stroke: "black", fill: "white" }),
       $(go.TextBlock,
         { 
@@ -297,7 +293,6 @@ export default function SimpleERDDiagram(): JSX.Element {
     return { tables, relationships };
   };
 
-
   const drawDiagram = () => {
     if (!fileContent) {
       setError('No file content to process');
@@ -325,7 +320,6 @@ export default function SimpleERDDiagram(): JSX.Element {
     }
   };
 
-
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -343,17 +337,18 @@ export default function SimpleERDDiagram(): JSX.Element {
 
   return (
     <div className="flex min-h-screen p-4 gap-4">
-      <div className="w-64 bg-gray-100 p-4 rounded">
-        <h1 className="text-2xl font-bold mb-4">Data Visualizer</h1>
+      <div className="w-72 bg-gray-100 p-4 rounded">
+        <h1 className="text-2xl font-bold mb-4 text-center">Data Visualizer</h1>
+        <Label className='text-center'>Upload File</Label>
         <Input
           type="file"
           accept=".json"
           onChange={handleFileUpload}
-          className="mb-4 w-full cursor-pointer"
+          className="mb-4 w-full file:bg-black file:text-white file:rounded-lg py-3 hover:file:cursor-pointer file:text-md file:h-8 h-14"
         />
         <Button
           onClick={drawDiagram}
-          className="w-full p-2 "
+          className="w-full p-2"
           disabled={!fileContent}
         >
           Draw Diagram
