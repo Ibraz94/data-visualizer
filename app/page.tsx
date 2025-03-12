@@ -219,6 +219,8 @@ export default function ERDDiagram(): JSX.Element {
 
     console.log('Updating diagram with:', { tables, relationships });
 
+    
+
     model.startTransaction("update diagram");
     model.nodeDataArray = [...tables];
     model.linkDataArray = [...relationships];
@@ -265,10 +267,10 @@ export default function ERDDiagram(): JSX.Element {
       return { key, name: tableName, fields };
     };
 
+
     const processRelatedArrays = (obj: any, parentKey: number, parentName: string, depth: number = 0): void => {
       if (depth > 5) return; 
       if (typeof obj !== 'object' || obj === null) return;
-
       Object.entries(obj).forEach(([key, value], index) => {
         if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'object') {
           value.forEach((item: any, itemIndex: number) => {
@@ -299,7 +301,7 @@ export default function ERDDiagram(): JSX.Element {
 
     if (typeof data === 'object' && data !== null) {
       const mainTableKey = 1;
-      const mainTableName = "JSON"
+      const mainTableName = "Table"
       const mainTable = createTable(data, mainTableName, mainTableKey);
       tables.push(mainTable);
       processRelatedArrays(data, mainTableKey, mainTableName);
@@ -339,7 +341,6 @@ export default function ERDDiagram(): JSX.Element {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     setError('');
     const reader = new FileReader();
     reader.onload = (event) => {
