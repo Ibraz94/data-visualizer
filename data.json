@@ -1,46 +1,40 @@
 {
-  "users": [
+  "fruits": [
     {
-      "id": 1,
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "age": 28,
-      "isActive": true,
-      "address": {
-        "street": "123 Main St",
-        "city": "New York",
-        "state": "NY",
-        "zipCode": "10001"
-      },
-      "skills": ["JavaScript", "React", "Node.js"]
+      "name": "Apple",
+      "color": "Red",
+      "nutrients": {
+        "calories": 52,
+        "fiber": "2.4g",
+        "vitaminC": "4.6mg"
+      }
     },
     {
-      "id": 2,
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "age": 34,
-      "isActive": false,
-      "address": {
-        "street": "456 Elm St",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zipCode": "90001"
-      },
-      "skills": ["Python", "Django", "SQL"]
+      "name": "Banana",
+      "color": "Yellow",
+      "nutrients": {
+        "calories": 89,
+        "fiber": "2.6g",
+        "potassium": "358mg"
+      }
     },
     {
-      "id": 3,
-      "name": "Alice Johnson",
-      "email": "alice.johnson@example.com",
-      "age": 22,
-      "isActive": true,
-      "address": {
-        "street": "789 Oak St",
-        "city": "Chicago",
-        "state": "IL",
-        "zipCode": "60601"
-      },
-      "skills": ["Java", "Spring", "Hibernate"]
+      "name": "Orange",
+      "color": "Orange",
+      "nutrients": {
+        "calories": 47,
+        "fiber": "2.4g",
+        "vitaminC": "53.2mg"
+      }
+    },
+    {
+      "name": "Orange",
+      "color": "Orange",
+      "nutrients": {
+        "calories": 47,
+        "fiber": "2.4g",
+        "vitaminC": "53.2mg"
+      }
     }
   ]
 }

@@ -34,19 +34,30 @@ export default function ERDDiagram(): JSX.Element {
   const [relationships, setRelationships] = useState<Relationship[]>([]);
   const [error, setError] = useState<string>('');
 
+  
+  // Panels
+  
   const getNodeTemplate = (): go.Node => {
     const $ = go.GraphObject.make;
     return $(go.Node, "Auto",
       { movable: true },
-      $(go.Shape, "RoundedRectangle", { fill: "gray", stroke: "black", strokeWidth: 4, }),
-      $(go.Panel, "Vertical",
-        $(go.Panel, "Horizontal",
-          { background: "gray", padding: 4 },
+      $(go.Shape, "RoundedRectangle", { 
+        fill: "gray", 
+        stroke: "black", 
+        strokeWidth: 2,
+        alignment: go.Spot.Center
+      }),
+
+
+      $(go.Panel, "Vertical",       
+         { background: "gray", 
+           padding: 4,
+        },
+
           $(go.TextBlock,
             {
               margin: 4,
               font: "bold 14px sans-serif",
-              stroke: "white",
               editable: false,
               click: (e: go.InputEvent, obj: go.GraphObject) => {
                 const panel = obj.part as go.Node;
@@ -58,13 +69,16 @@ export default function ERDDiagram(): JSX.Element {
             },
             new go.Binding("text", "name")
           ),
-        ),
+
+
         $(go.Panel, "Vertical",
-          { name: "DETAILS", visible: true, margin: 4 },
+          { name: "", visible: true, margin: 4 },
+
           $(go.TextBlock,
-            { text: "PRIMARY KEY", font: "bold 14px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) },
+            { font: "bold 14px sans-serif", stroke: "white" },
             new go.Binding("visible", "fields", (fields: Field[]) => fields.some(f => f.isPrimary))
           ),
+
           $(go.Panel, "Vertical",
             new go.Binding("itemArray", "fields", (fields: Field[]) => fields.filter(f => f.isPrimary)),
             {
@@ -76,13 +90,8 @@ export default function ERDDiagram(): JSX.Element {
                 $(go.TextBlock,
                   { margin: new go.Margin(2, 5), stroke: "white" },
                   new go.Binding("text", "value", v => v !== undefined ? String(v) : "unknown")
-                )
-              )
-            }
-          ),
-          $(go.TextBlock,
-            { text: "ATTRIBUTES", font: "bold 14px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) }
-          ),
+                ))}),
+
           $(go.Panel, "Vertical",
             new go.Binding("itemArray", "fields", (fields: Field[]) => 
               fields.filter(f => !f.isForeign && !f.isPrimary)
@@ -94,16 +103,15 @@ export default function ERDDiagram(): JSX.Element {
                   new go.Binding("text", "name")
                 ),
                 $(go.TextBlock,
-                  { margin: new go.Margin(2, 5), stroke: "white" },
+                  { margin: new go.Margin(2, 5), stroke: "black" },
                   new go.Binding("text", "value", v => Array.isArray(v) ? v.join(", ") : (v !== undefined ? String(v) : "unknown"))
-                )
-              )
-            }
-          ),
+                ))}),
+
           $(go.TextBlock,
-            { text: "INHERITED ATTRIBUTES", font: "bold 10px sans-serif", stroke: "white", margin: new go.Margin(4, 0, 2, 0) },
+            { text: "INHERITED ATTRIBUTES", font: "bold 10px sans-serif", stroke: "white"},
             new go.Binding("visible", "fields", (fields: Field[]) => fields.some(f => f.isForeign))
           ),
+
           $(go.Panel, "Vertical",
             new go.Binding("itemArray", "fields", (fields: Field[]) => fields.filter(f => f.isForeign)),
             {
@@ -124,17 +132,26 @@ export default function ERDDiagram(): JSX.Element {
     );
   };
 
+//  Links
+
   const getLinkTemplate = (): go.Link => {
     const $ = go.GraphObject.make;
     return $(go.Link,
       { 
         routing: go.Link.AvoidsNodes, 
         curve: go.Link.JumpOver,
-        corner: 20,
+        corner: 100,
         layerName: "Foreground"
       },
-      $(go.Shape, { strokeWidth: 4, stroke: "black" }),
-      $(go.Shape, { toArrow: "Standard", stroke: "black", fill: "white" }),
+
+       
+      $(go.Shape, { 
+        strokeWidth: 2, 
+        stroke: "black",
+        fromSpot: go.Spot.AllSides,
+        toSpot: go.Spot.Top,
+      }),
+
       $(go.TextBlock,
         { 
           segmentOffset: new go.Point(0, -15),
@@ -143,6 +160,7 @@ export default function ERDDiagram(): JSX.Element {
         },
         new go.Binding("text", "fromText", t => t || "1")
       ),
+
       $(go.TextBlock,
         { 
           segmentOffset: new go.Point(0, 15),
@@ -150,22 +168,22 @@ export default function ERDDiagram(): JSX.Element {
           font: "10px sans-serif"
         },
         new go.Binding("text", "toText", t => t || "N")
-      )
-    );
-  };
+      ))};
+
 
   useEffect(() => {
     if (diagramRef.current) {
       const $ = go.GraphObject.make;
+
       const diagram = $(go.Diagram, diagramRef.current, {
         "undoManager.isEnabled": true,
         "grid.visible": true,
-        initialContentAlignment: go.Spot.Center,
+        "initialContentAlignment": go.Spot.TopLeftSides,
         "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
         layout: $(go.LayeredDigraphLayout, {
-          direction: 0,
-          layerSpacing: 100,
-          columnSpacing: 100
+          direction: 90,
+          layerSpacing: 300,
+          columnSpacing: 300
         }),
         model: $(go.GraphLinksModel, {
           nodeKeyProperty: "key"
@@ -281,7 +299,7 @@ export default function ERDDiagram(): JSX.Element {
 
     if (typeof data === 'object' && data !== null) {
       const mainTableKey = 1;
-      const mainTableName = "JSON";
+      const mainTableName = "JSON"
       const mainTable = createTable(data, mainTableName, mainTableKey);
       tables.push(mainTable);
       processRelatedArrays(data, mainTableKey, mainTableName);
