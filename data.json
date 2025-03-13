@@ -1,39 +1,103 @@
 {
-  "fruits": [
+  "companyName": "Tech Innovators Inc.",
+  "companyId": "TI123",
+  "departments": [
     {
-      "name": "Apple",
-      "color": "Red",
-      "nutrients": {
-        "calories": 52,
-        "fiber": "2.4g",
-        "vitaminC": "4.6mg"
+      "department Name": "Engineering",
+      "departmentId": "ENG001",
+      "manager": {
+        "name": "Alice Smith",
+        "employeeId": "ES001",
+        "email": "alice.smith@techinnovators.com"
+      },
+      "employees": [
+        {
+          "name": "Bob Johnson",
+          "employeeId": "BJ001",
+          "email": "bob.johnson@techinnovators.com",
+          "role": "Senior Developer",
+          "projects": [
+            {
+              "project Name": "Project Alpha",
+              "projectId": "PA001",
+              "startDate": "2023-01-15",
+              "endDate": "2023-06-30",
+              "status": "Completed"
+            },
+            {
+              "project Name": "Project Beta",
+              "projectId": "PB002",
+              "startDate": "2023-07-10",
+              "endDate": null,
+              "status": "In Progress"
+            }
+          ]
+        },
+        {
+          "name": "Charlie Brown",
+          "employeeId": "CB002",
+          "email": "charlie.brown@techinnovators.com",
+          "role": "Junior Developer",
+          "projects": [
+            {
+              "projectName": "Project Beta",
+              "projectId": "PB002",
+              "startDate": "2023-07-10",
+              "endDate": null,
+              "status": "In Progress"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "departmentName": "Marketing",
+      "departmentId": "MKT002",
+      "manager": {
+        "name": "Diana Lee",
+        "employeeId": "DL002",
+        "email": "diana.lee@techinnovators.com"
+      },
+      "employees": [
+        {
+          "name": "Eve Wilson",
+          "employeeId": "EW003",
+          "email": "eve.wilson@techinnovators.com",
+          "role": "Marketing Specialist",
+          "projects": [
+            {
+              "projectName": "Campaign X",
+              "projectId": "CX001",
+              "startDate": "2023-09-01",
+              "endDate": "2023-12-31",
+              "status": "In Progress"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "offices": [
+    {
+      "officeName": "Headquarters",
+      "officeId": "HQ001",
+      "location": "New York",
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
       }
     },
     {
-      "name": "Banana",
-      "color": "Yellow",
-      "nutrients": {
-        "calories": 89,
-        "fiber": "2.6g",
-        "potassium": "358mg"
-      }
-    },
-    {
-      "name": "Orange",
-      "color": "Orange",
-      "nutrients": {
-        "calories": 47,
-        "fiber": "2.4g",
-        "vitaminC": "53.2mg"
-      }
-    },
-    {
-      "name": "Orange",
-      "color": "Orange",
-      "nutrients": {
-        "calories": 47,
-        "fiber": "2.4g",
-        "vitaminC": "53.2mg"
+      "officeName": "Branch Office",
+      "officeId": "BO002",
+      "location": "Los Angeles",
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zip": "90001"
       }
     }
   ]
