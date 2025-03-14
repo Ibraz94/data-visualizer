@@ -286,7 +286,6 @@ export default function ERDDiagram(): JSX.Element {
 
             const relatedTable = createTable(item, relatedTableName, relatedTableKey);
             tables.push(relatedTable);
-
             relationships.push({
               from: parentKey,
               to: relatedTableKey,
@@ -299,8 +298,7 @@ export default function ERDDiagram(): JSX.Element {
         } else if (typeof value === 'object') {
           processRelatedArrays(value, parentKey, parentName, depth + 1);
         } else if (typeof value === 'string' && key.toLowerCase().includes('id')) {
-          // Check for potential foreign key relationships
-          const relatedTableName = key.replace(/Id$/i, ''); // Remove "Id" suffix
+          const relatedTableName = key.replace(/Id$/i, ''); 
           const relatedTableKey = findTableKeyByName(relatedTableName);
           if (relatedTableKey && parentKey !== relatedTableKey) {
             relationships.push({
